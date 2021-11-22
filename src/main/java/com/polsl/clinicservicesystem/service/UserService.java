@@ -11,7 +11,6 @@ import com.polsl.clinicservicesystem.repository.UserRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

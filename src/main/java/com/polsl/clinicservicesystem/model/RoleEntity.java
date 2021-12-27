@@ -16,24 +16,23 @@ import javax.persistence.Table;
 public class RoleEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id;
+  private String code;
 
   private String name;
 
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(name = "role_authorities",
-      joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false),
-      inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id", nullable = false))
+      joinColumns = @JoinColumn(name = "role_code", referencedColumnName = "code", nullable = false),
+      inverseJoinColumns = @JoinColumn(name = "authority_code", referencedColumnName = "code", nullable = false))
   private Set<AuthorityEntity> authorities;
 
 
-  public Integer getId() {
-    return id;
+  public String getCode() {
+    return code;
   }
 
-  public void setId(Integer id) {
-    this.id = id;
+  public void setCode(String code) {
+    this.code = code;
   }
 
   public String getName() {

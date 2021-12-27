@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -24,15 +25,17 @@ public class UserEntity {
 
   private String password;
 
+  private String firstName;
+
+  private String lastName;
+
   private String emailAddress;
 
   private boolean isActive;
 
-  @ManyToMany(fetch = FetchType.LAZY)
-  @JoinTable(name = "user_roles",
-      joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false),
-      inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false))
-  private Set<RoleEntity> roles;
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "role", referencedColumnName = "code")
+  RoleEntity role;
 
   public Integer getId() {
     return id;
@@ -74,11 +77,27 @@ public class UserEntity {
     isActive = active;
   }
 
-  public Set<RoleEntity> getRoles() {
-    return roles;
+  public RoleEntity getRole() {
+    return role;
   }
 
-  public void setRoles(Set<RoleEntity> roles) {
-    this.roles = roles;
+  public void setRole(RoleEntity role) {
+    this.role = role;
+  }
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
   }
 }

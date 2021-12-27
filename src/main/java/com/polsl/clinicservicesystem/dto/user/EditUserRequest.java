@@ -2,12 +2,11 @@ package com.polsl.clinicservicesystem.dto.user;
 
 import javax.validation.constraints.NotBlank;
 
-public class RegisterUserRequest {
+public class EditUserRequest {
 
   @NotBlank
   private String username;
 
-  @NotBlank
   private String password;
 
   @NotBlank
@@ -18,9 +17,6 @@ public class RegisterUserRequest {
 
   @NotBlank
   private String email;
-
-  @NotBlank
-  private String role;
 
   public String getUsername() {
     return username;
@@ -44,14 +40,6 @@ public class RegisterUserRequest {
 
   public void setEmail(String email) {
     this.email = email;
-  }
-
-  public String getRole() {
-    return role;
-  }
-
-  public void setRole(String role) {
-    this.role = role;
   }
 
   public String getFirstName() {

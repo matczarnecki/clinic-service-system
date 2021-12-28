@@ -7,4 +7,7 @@ INSERT INTO roles (name) VALUES ('ROLE_USER');
 INSERT INTO role_authorities (role_id, authority_id) VALUES (1, 1);
 INSERT INTO role_authorities (role_id, authority_id) VALUES (1, 2);
 
-INSERT INTO users (email_address, is_active, password, username) VALUES ('admin@polsl.com', true, '975e351d47df73e0b479719c', 'admin')
+INSERT INTO users (email_address, is_active, password, username) VALUES ('admin@polsl.com', true, '975e351d47df73e0b479719c', 'admin');
+INSERT INTO users (email_address, is_active, password, username) VALUES ('user@polsl.com', true, '975e351d47df73e0b479719c', 'user');
+
+INSERT INTO user_roles (user_id, role_id) VALUES (1, 1);

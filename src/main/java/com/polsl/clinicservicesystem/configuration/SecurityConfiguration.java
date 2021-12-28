@@ -27,6 +27,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   private static final String[] URL_WHITELIST = {
       "/v1/api/authentication",
       "/v1/api/users/registration",
+      "/",
+      "/static/**",
+      "/favicon.ico",
+      "manifest.json"
   };
 
   @Value("${app.passwordEncoderKey}")

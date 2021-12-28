@@ -1,14 +1,11 @@
 package com.polsl.clinicservicesystem.model;
 
-import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -20,17 +17,11 @@ public class UserEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
-
   private String username;
-
   private String password;
-
   private String firstName;
-
   private String lastName;
-
   private String emailAddress;
-
   private boolean isActive;
 
   @OneToOne(fetch = FetchType.LAZY)

@@ -5,6 +5,7 @@ import com.polsl.clinicservicesystem.dto.authentication.AuthenticationResponse;
 import com.polsl.clinicservicesystem.exception.BadRequestException;
 import com.polsl.clinicservicesystem.security.CustomUserDetailsService;
 import com.polsl.clinicservicesystem.utility.JwtUtility;
+import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,8 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/v1/api/authentication")
@@ -45,6 +44,4 @@ public class AuthenticationController {
     final String jwt = jwtUtility.generateToken(userDetails);
     return ResponseEntity.ok(new AuthenticationResponse(jwt));
   }
-
-
 }

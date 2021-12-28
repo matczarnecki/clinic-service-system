@@ -5,6 +5,7 @@ import com.polsl.clinicservicesystem.exception.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -42,5 +43,12 @@ public class ControllerExceptionHandler {
   @ResponseBody
   ApiBasicResponse handleBadRequestException(BadRequestException e) {
     return new ApiBasicResponse(false, e.getMessage());
+  }
+
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  @ResponseBody
+  ApiBasicResponse handleConstraintViolationException() {
+    return new ApiBasicResponse(false, "Invalid request parameter.");
   }
 }

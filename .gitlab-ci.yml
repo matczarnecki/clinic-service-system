@@ -7,6 +7,10 @@
 stages:
 - build
 build-image:
+  services:
+    - docker
+    - yarn
+    - mvn
   stage: build
   script:
     - docker login -u $DOCKERHUB_LOGIN -p $DOCKERHUB_KEY

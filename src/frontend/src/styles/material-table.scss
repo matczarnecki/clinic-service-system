@@ -1,0 +1,69 @@
+.table {
+  .MuiPaper-root {
+    border-top: 0.5px ridge $logo-color;
+    border-left: 0.5px ridge $logo-color;
+    border-right: 0.5px ridge $logo-color;
+    border-bottom: none;
+    color: $table-text-color;
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    background-color: $secondary-dark;
+  }
+  .MuiTableCell-head {
+    background-color: $secondary-dark;
+    color: $table-text-color;
+  }
+
+  .MuiTableRow-root:nth-child(odd) {
+    background-color: $table-color-odd;
+  }
+
+  .MuiTableRow-root:nth-child(even) {
+    background-color: $table-color-even;
+  }
+
+  .MuiToolbar-root {
+    border-bottom:0.2px groove $logo-color;
+  }
+
+  .MuiTableCell-root {
+    border-bottom: 1px groove $logo-color;
+  }
+
+  .MuiTableCell-footer {
+    background-color: $secondary-dark;
+    .MuiToolbar-root {
+      border: none;
+    }
+  }
+
+  .MuiTableCell-body {
+    color: $table-text-color;
+  }
+
+  .MuiInputBase-root {
+    color: $table-text-color;
+    border: solid;
+    border-width: 0.1mm;
+    border-color: $logo-color;
+  }
+
+  .MuiIconButton-root {
+    color: $logo-color !important;
+  }
+
+  .MuiTablePagination-root {
+    color: $table-text-color;
+  }
+
+  .MuiSelect-icon {
+    color: $table-text-color;
+  }
+
+  .MTablePaginationInner-root-223 {
+    color: $table-text-color;
+  }
+
+  .MTablePaginationInner-root-224 {
+    color: $table-text-color;
+  }
+}

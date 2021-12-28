@@ -1,0 +1,13 @@
+$secondary-dark: #212121;
+$main-dark: #121212;
+$logo-color: #14bac0;
+$text-color: #cecdcd;
+$table-text-color: #ffffffc2;
+$table-color-even: #2c2c2c;
+$table-color-odd: #373737;
+$third-dark: #373737;
+$tablist-color: #424242;
+
+@import "main-styles.scss";
+@import "material-table";
+@import "tablist";

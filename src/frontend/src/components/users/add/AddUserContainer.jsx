@@ -55,7 +55,7 @@ class AddUserContainer extends Component {
                 if (error.response) {
                   this.props.showMessage(error.response.data);
                 } else {
-                  this.props.showMessage("Nieznany błąd");
+                  this.props.showMessage("Unrecognized error");
                 }
               });
             } else {
@@ -68,7 +68,7 @@ class AddUserContainer extends Component {
             if (error.response) {
               this.props.showMessage(error.response.data);
             } else {
-              this.props.showMessage("Nieznany błąd");
+              this.props.showMessage("Unrecognized error");
             }
             this.setState({
               isLoading: false,

@@ -5,20 +5,43 @@
 # Note that environment variables can be set in several places
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 stages:
-- build
-build-frontend:
-  services:
-    - docker
-    - yarn
-    - mvn
-  stage: build
+- build-artifact
+- build-image
+- deploy
+build-jar:
+  image: openjdk:11-jdk
+  stage: build-artifact
+  before_script:
+    - chmod +x ./mvnw
   script:
-    - docker login -u $DOCKERHUB_LOGIN -p $DOCKERHUB_KEY
-    - cd frontend
-    - yarn build
-    - cd ../backend
-    - mvn clean install
-    - docker build -t fil1ip/clinic-system .
-    - docker push fil1ip/clinic-system
+    - ./mvnw clean install -DskipTests
+  artifacts:
+    paths:
+      - target/*.jar
   only:
     - master
+build-image:
+  image: docker:latest
+  services:
+    - docker:dind
+  stage: build-image
+  dependencies: 
+    - build-jar
+  before_script:
+    - docker login -u $DOCKERHUB_LOGIN -p $DOCKERHUB_KEY
+  script:
+    - docker build -t fil1ip/clinic-system .
+    - docker push fil1ip/clinic-system
+deploy:
+  image: docker:latest
+  stage: deploy
+  before_script:
+    - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )' 
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $VM_IPADDRESS >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - ssh $SSH_USER@$VM_IPADDRESS "cd ../srv/clinic-system/ && docker-compose stop && docker-compose pull && docker-compose up -d"

@@ -6,32 +6,32 @@ const UsersComponent = (props) => {
   return (
     <Card className="card">
       <Typography variant="h5" className="underline-title">
-        Użytkownicy
+        Users
       </Typography>
       <div className="table">
         <MaterialTable
           columns={props.columns}
           data={props.data}
-          title="Użytkownicy"
+          title="Users"
           options={{
             emptyRowsWhenPaging: false,
           }}
           actions={[
             {
               icon: 'add',
-              tooltip: 'Dodaj użytkownika',
+              tooltip: 'Add user',
               isFreeAction: true,
               onClick: props.onAdd,
             },
             rowData => ({
               icon: 'edit',
-              tooltip: 'Modyfikuj użytkownika',
+              tooltip: 'Modify user',
               onClick: props.onEdit,
               disabled: !rowData.active,
             }),
             rowData => ({
               icon: 'delete',
-              tooltip: 'Dezaktywuj użytkownika',
+              tooltip: 'Deactivate user',
               onClick: props.onDeactivate,
               disabled: !rowData.active,
             }),

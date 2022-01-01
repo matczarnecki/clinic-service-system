@@ -31,7 +31,6 @@ class UsersContainer extends Component {
   fetchData = () => {
     getUsers()
     .then(res => {
-      console.log(res)
       this.setState({
         users: res.data
       });
@@ -40,7 +39,7 @@ class UsersContainer extends Component {
       if (error.response) {
         this.props.showMessage(error.response.data);
       } else {
-        this.props.showMessage("Nieznany błąd");
+        this.props.showMessage("Unrecognized error");
       }
     });
   }
@@ -60,13 +59,12 @@ class UsersContainer extends Component {
       if (res.data) {
         this.props.showMessage(res.data);
       }
-     
     })
     .catch(error => {
       if (error.response) {
         this.props.showMessage(error.response.data);
       } else {
-        this.props.showMessage("Nieznany błąd");
+        this.props.showMessage("Unrecognized error");
       }
       this.hideDialog();
     });
@@ -77,23 +75,23 @@ class UsersContainer extends Component {
         <UsersComponent
           columns={[
             {
-              title: 'Login',
+              title: 'Username',
               field: 'username',
             },
             {
-              title: 'Imię',
+              title: 'First name',
               field: 'firstName',
             },
             {
-              title: 'Nazwisko',
+              title: 'Last name',
               field: 'lastName',
             },
             {
-              title: 'Rola',
+              title: 'Role',
               field: 'role',
             },
             {
-              title: 'Aktywny',
+              title: 'Active',
               field: 'active',
               type: 'boolean',
             },
@@ -105,9 +103,9 @@ class UsersContainer extends Component {
         />
         <YesNoDialog
           visible={this.state.dialogVisible}
-          title='Ostrzeżenie'
+          title='Warning'
           onHide={this.hideDialog}
-          content="Czy na pewno chcesz dezaktywować konto tego użytkownika?"
+          content="Do you really want to disable this user?"
           onConfirm={this.onDeactivate}
         />
       </>

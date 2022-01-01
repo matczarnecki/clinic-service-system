@@ -25,7 +25,7 @@ function addUser(data) {
 function deactivateUser(id) {
   return axios({
     method: "DELETE",
-    url: `/api/user/admin/deactivateuser/${id}`,
+    url: `/v1/api/users/${id}`,
   });
 }
 

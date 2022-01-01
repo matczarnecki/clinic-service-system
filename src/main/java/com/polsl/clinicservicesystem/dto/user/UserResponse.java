@@ -8,9 +8,27 @@ public class UserResponse {
 
   private String username;
 
-  private String emailAddress;
+  private String email;
 
   private boolean isActive;
+
+  private String role;
+
+  private String firstName;
+
+  private String lastName;
+
+  public static UserResponse fromEntity(UserEntity entity) {
+    UserResponse response = new UserResponse();
+    response.setId(entity.getId());
+    response.setUsername(entity.getUsername());
+    response.setEmail(entity.getEmailAddress());
+    response.setActive(entity.isActive());
+    response.setRole(entity.getRole().getCode());
+    response.setFirstName(entity.getFirstName());
+    response.setLastName(entity.getLastName());
+    return response;
+  }
 
   public Integer getId() {
     return id;
@@ -28,12 +46,12 @@ public class UserResponse {
     this.username = username;
   }
 
-  public String getEmailAddress() {
-    return emailAddress;
+  public String getEmail() {
+    return email;
   }
 
-  public void setEmailAddress(String emailAddress) {
-    this.emailAddress = emailAddress;
+  public void setEmail(String email) {
+    this.email = email;
   }
 
   public boolean isActive() {
@@ -44,12 +62,27 @@ public class UserResponse {
     isActive = active;
   }
 
-  public static UserResponse fromEntity(UserEntity entity) {
-    UserResponse response = new UserResponse();
-    response.setId(entity.getId());
-    response.setUsername(entity.getUsername());
-    response.setEmailAddress(entity.getEmailAddress());
-    response.setActive(entity.isActive());
-    return response;
+  public String getRole() {
+    return role;
+  }
+
+  public void setRole(String role) {
+    this.role = role;
+  }
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
   }
 }

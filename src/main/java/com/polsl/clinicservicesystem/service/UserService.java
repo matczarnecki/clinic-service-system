@@ -1,8 +1,8 @@
 package com.polsl.clinicservicesystem.service;
 
+import com.polsl.clinicservicesystem.dto.user.EditUserRequest;
 import com.polsl.clinicservicesystem.dto.user.RegisterUserRequest;
 import com.polsl.clinicservicesystem.dto.user.UserResponse;
-import com.polsl.clinicservicesystem.exception.AppException;
 import com.polsl.clinicservicesystem.exception.BadRequestException;
 import com.polsl.clinicservicesystem.model.RoleEntity;
 import com.polsl.clinicservicesystem.model.UserEntity;
@@ -10,7 +10,7 @@ import com.polsl.clinicservicesystem.repository.RoleRepository;
 import com.polsl.clinicservicesystem.repository.UserRepository;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,17 +33,21 @@ public class UserService {
     if (userRepository.existsByUsername(request.getUsername())) {
       throw new BadRequestException("User with this username already exists");
     }
-    if (userRepository.existsByEmailAddress(request.getEmailAddress())) {
+    if (userRepository.existsByEmailAddress(request.getEmail())) {
       throw new BadRequestException("User with this email address already exists");
     }
 
+    RoleEntity role = roleRepository.findById(request.getRole()).orElseThrow(() -> {
+      throw new BadRequestException("Role provided for user doesn't exist");
+    });
+
     newUser.setUsername(request.getUsername());
     newUser.setPassword(passwordEncoder.encode(request.getPassword()));
-    newUser.setEmailAddress(request.getEmailAddress());
+    newUser.setEmailAddress(request.getEmail());
     newUser.setActive(true);
-    RoleEntity role = roleRepository.findByName("ROLE_USER")
-        .orElseThrow(() -> new AppException("Role provided for user doesn't exist"));
-    newUser.setRoles(Stream.of(role).collect(Collectors.toSet()));
+    newUser.setRole(role);
+    newUser.setFirstName(request.getFirstName());
+    newUser.setLastName(request.getLastName());
     userRepository.save(newUser);
   }
 
@@ -53,5 +57,34 @@ public class UserService {
         .stream()
         .map(UserResponse::fromEntity)
         .collect(Collectors.toList());
+  }
+
+  public UserResponse getUser(Integer id) {
+    UserEntity user = userRepository
+        .findById(id)
+        .orElseThrow(() -> new BadRequestException("User not found"));
+    return UserResponse.fromEntity(user);
+  }
+
+  public void editUser(Integer id, EditUserRequest request) {
+    UserEntity user = userRepository
+        .findById(id)
+        .orElseThrow(() -> new BadRequestException("User not found"));
+    user.setUsername(request.getUsername());
+    user.setFirstName(request.getFirstName());
+    user.setLastName(request.getLastName());
+    user.setEmailAddress(request.getEmail());
+    if (StringUtils.isNotBlank(request.getPassword())) {
+      user.setPassword(passwordEncoder.encode(request.getPassword()));
+    }
+    userRepository.save(user);
+  }
+
+  public void disableUser(Integer id) {
+    UserEntity user = userRepository
+        .findById(id)
+        .orElseThrow(() -> new BadRequestException("User not found"));
+    user.setActive(false);
+    userRepository.save(user);
   }
 }

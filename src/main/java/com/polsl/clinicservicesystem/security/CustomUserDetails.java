@@ -1,6 +1,5 @@
 package com.polsl.clinicservicesystem.security;
 
-import com.polsl.clinicservicesystem.model.RoleEntity;
 import com.polsl.clinicservicesystem.model.UserEntity;
 import java.util.Collection;
 import java.util.Set;
@@ -11,21 +10,20 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class CustomUserDetails implements UserDetails {
 
-  private Integer id;
-  private String username;
-  private String password;
-  private String emailAddress;
-  private boolean isActive;
-  private Collection<? extends GrantedAuthority> authorities;
+  private final Integer id;
+  private final String username;
+  private final String password;
+  private final String emailAddress;
+  private final boolean isActive;
+  private final Collection<? extends GrantedAuthority> authorities;
 
   public CustomUserDetails(UserEntity user) {
 
-    final Set<GrantedAuthority> userAuthorities = user.getRoles()
-        .stream()
-        .map(RoleEntity::getAuthorities)
-        .flatMap(Collection::stream)
-        .map(authority -> new SimpleGrantedAuthority(authority.getName()))
-        .collect(Collectors.toSet());
+    final Set<GrantedAuthority> userAuthorities =
+        user.getRole().getAuthorities()
+            .stream()
+            .map(authority -> new SimpleGrantedAuthority(authority.getCode()))
+            .collect(Collectors.toSet());
 
     id = user.getId();
     username = user.getUsername();

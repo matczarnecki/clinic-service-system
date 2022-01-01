@@ -11,7 +11,16 @@ public class RegisterUserRequest {
   private String password;
 
   @NotBlank
-  private String emailAddress;
+  private String firstName;
+
+  @NotBlank
+  private String lastName;
+
+  @NotBlank
+  private String email;
+
+  @NotBlank
+  private String role;
 
   public String getUsername() {
     return username;
@@ -29,11 +38,35 @@ public class RegisterUserRequest {
     this.password = password;
   }
 
-  public String getEmailAddress() {
-    return emailAddress;
+  public String getEmail() {
+    return email;
   }
 
-  public void setEmailAddress(String emailAddress) {
-    this.emailAddress = emailAddress;
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getRole() {
+    return role;
+  }
+
+  public void setRole(String role) {
+    this.role = role;
+  }
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
   }
 }

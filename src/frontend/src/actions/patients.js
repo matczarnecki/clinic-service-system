@@ -3,14 +3,14 @@ import axios from "axios";
 function getPatients() {
   return axios({
     method: "GET",
-    url: '/api/patient/registrant',
+    url: '/v1/api/patients',
   });
 }
 
 function addPatient(data) {
   return axios({
     method: "POST",
-    url: '/api/patient/registrant',
+    url: '/v1/api/patients/',
     data,
   })
 }

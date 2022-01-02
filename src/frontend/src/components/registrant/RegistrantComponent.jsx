@@ -13,16 +13,16 @@ const RegistrantComponent = props => {
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <Card className="card">
         <Typography variant="h5" className="underline-title">
-          Wizyty
+          Appointments
         </Typography>
         <Grid container>
           <Grid item xs={12} md={3}>
             <KeyboardDatePicker
               variant="inline"
               disableToolbar
-              format="dd/MM/yyyy"
+              format="yyyy-MM-dd"
               value={props.date}
-              label="Data"
+              label="Date"
               onChange={props.handleDateChange}
               fullWidth
               style={{marginBottom: "3%"}}
@@ -33,7 +33,7 @@ const RegistrantComponent = props => {
           <MaterialTable
             columns={props.columns}
             data={props.data}
-            title="Wizyty"
+            title="Appointments"
             options={{
               emptyRowsWhenPaging: false
             }}
@@ -41,15 +41,15 @@ const RegistrantComponent = props => {
             actions={[
               {
                 icon: 'add',
-                tooltip: 'Dodaj wizytę',
+                tooltip: 'Add appointment',
                 isFreeAction: true,
                 onClick: props.onAdd,
               },
               rowData => ({
                 icon: 'delete',
-                tooltip: 'Anuluj wizytę',
+                tooltip: 'Cancel appointment',
                 onClick: props.onCancel,
-                disabled: rowData.status !== 'REJ'
+                disabled: rowData.status !== 'SCHEDULED'
               })
             ]}
           />

@@ -1,13 +1,14 @@
 import axios from "axios";
 
-function getAppointments(date) {
+function getAppointments(date, doctor) {
+  date.setUTCHours(0,0,0,0);
+  const isoDate = date.toISOString().substring(0,10);
   return axios({
     method: "GET",
-    url: "api/appointment/registrant",
+    url: "/v1/api/appointments",
     params: {
-      day: date.getDate(),
-      month: date.getMonth() + 1,
-      year: date.getFullYear()
+      date: isoDate,
+      doctor,
     }
   });
 }
@@ -15,8 +16,8 @@ function getAppointments(date) {
 function addAppointment(data) {
   return axios({
     method: "POST",
-    url: "api/appointment/registrant",
-    data: data,
+    url: "/v1/api/appointments",
+    data
   });
 }
 

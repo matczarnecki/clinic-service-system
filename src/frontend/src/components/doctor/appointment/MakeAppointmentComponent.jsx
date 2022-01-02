@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Tabs, Tab, Paper } from '@material-ui/core';
+import { Card, Tabs, Tab } from '@material-ui/core';
 import AppointmentComponent from './tabs/AppointmentComponent';
 import TestComponent from './tabs/TestComponent';
 import LoadingOverlay from './../../../ui/LoadingOverlay';

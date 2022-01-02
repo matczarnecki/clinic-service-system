@@ -29,10 +29,10 @@ const YesNoDialog = (props) => {
 
       <DialogActions>
         <Button onClick={props.onHide} color="primary">
-          Nie
+          No
           </Button>
         <Button onClick={props.onConfirm} color="primary">
-          Tak
+          Yes
         </Button>
       </DialogActions>
     </Dialog>

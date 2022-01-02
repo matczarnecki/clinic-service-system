@@ -11,6 +11,8 @@ public interface UserRepository extends CrudRepository<UserEntity, Integer> {
 
   List<UserEntity> findAll();
 
+  List<UserEntity> findAllByRole_Code(String doc);
+
   boolean existsByUsername(String username);
 
   boolean existsByEmailAddress(String emailAddress);

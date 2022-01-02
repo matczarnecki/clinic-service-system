@@ -10,6 +10,8 @@ import com.polsl.clinicservicesystem.repository.RoleRepository;
 import com.polsl.clinicservicesystem.repository.UserRepository;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -86,5 +88,12 @@ public class UserService {
         .orElseThrow(() -> new BadRequestException("User not found"));
     user.setActive(false);
     userRepository.save(user);
+  }
+
+  public List<UserResponse> getDoctors() {
+    return userRepository.findAllByRole_Code("DOC")
+        .stream()
+        .map(UserResponse::fromEntity)
+        .collect(Collectors.toList());
   }
 }

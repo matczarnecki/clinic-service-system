@@ -11,8 +11,6 @@ import { withRouter } from 'react-router-dom'
 import { logout } from './actions/auth'
 import MakeAppointmentContainer from './components/doctor/appointment/MakeAppointmentContainer';
 import DoctorsContainer from './components/doctor/DoctorsContainer';
-import AssistantContainer from './components/lab/AssistantContainer';
-import SupervisorContainer from './components/lab/SupervisorContainer';
 
 // tutaj uzupelniac odpowiedni Route w zalezności od roli użytkownika
 const createRoutes = (role) => {

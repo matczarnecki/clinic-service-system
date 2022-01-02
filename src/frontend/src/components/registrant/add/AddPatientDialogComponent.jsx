@@ -15,23 +15,22 @@ const formikEnhancer = withFormik({
   enableReinitialize: true,
 
   mapPropsToValues: (props) => ({
-    FirstName: "",
-    Surname: "",
-    PersonalIdentityNumber: "",
+    firstName: "",
+    lastName: "",
   }),
 
   handleSubmit: (values, { props, resetForm }) => {
     props
       .onSubmit(values)
       .then((res) => {
-        props.showMessage(res.data);
+        props.showMessage(res?.data);
         props.fetch();
       })
       .catch((error) => {
-        if (error.response) {
-          props.showMessage(error.response.data);
+        if (error?.response?.data?.message) {
+          props.showMessage(error.response.data.message);
         } else {
-          props.showMessage("Nieznany błąd");
+          props.showMessage("Unrecognized error!");
         }
       })
       .then(resetForm)
@@ -39,12 +38,8 @@ const formikEnhancer = withFormik({
   },
 
   validationSchema: Yup.object().shape({
-    FirstName: Yup.string().required("Imię nie może być pusty!"),
-    Surname: Yup.string().required("Nazwisko nie może być puste!"),
-    PersonalIdentityNumber: Yup.string()
-      .length(11, "Pesel musi zawierać 11 znaków!")
-      .matches('[0-9]{4}[0-3]{1}[0-9}{1}[0-9]{5}',"Niepoprawny pesel!")
-      .required("Pesel nie może być pusty!"),
+    firstName: Yup.string().required("First name can't be empty!"),
+    lastName: Yup.string().required("Last name can't be empty!"),
   }),
 });
 
@@ -62,53 +57,41 @@ const AddPatientDialogComponent = (props) => {
       maxWidth="xs"
       TransitionComponent={Zoom}
     >
-      <DialogTitle>Dodawanie pacjenta</DialogTitle>
+      <DialogTitle>Add patient</DialogTitle>
       <DialogContent>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
-              id="FirstName"
+              id="firstName"
               onChange={props.handleChange}
               fullWidth
               variant="outlined"
-              label="Imię"
-              value={props.values.FirstName}
-              helperText={touched.FirstName ? errors.FirstName : ""}
-              error={touched.FirstName && Boolean(errors.FirstName)}
+              label="First name"
+              value={props.values.firstName}
+              helperText={touched.firstName ? errors.firstName : ""}
+              error={touched.firstName && Boolean(errors.firstName)}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
-              id="Surname"
+              id="lastName"
               onChange={props.handleChange}
               fullWidth
               variant="outlined"
-              label="Nazwisko"
-              value={props.values.Surname}
-              helperText={touched.Surname ? errors.Surname : ""}
-              error={touched.Surname && Boolean(errors.Surname)}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              id="PersonalIdentityNumber"
-              onChange={props.handleChange}
-              fullWidth
-              variant="outlined"
-              label="PESEL"
-              value={props.values.PersonalIdentityNumber}
-              helperText={touched.PersonalIdentityNumber ? errors.PersonalIdentityNumber : ""}
-              error={touched.PersonalIdentityNumber && Boolean(errors.PersonalIdentityNumber)}
+              label="Last name"
+              value={props.values.lastName}
+              helperText={touched.lastName ? errors.lastName : ""}
+              error={touched.lastName && Boolean(errors.lastName)}
             />
           </Grid>
         </Grid>
       </DialogContent>
       <DialogActions>
         <Button onClick={props.onClose} color="primary">
-          Anuluj
+          Cancel
         </Button>
         <Button onClick={props.handleSubmit} color="primary">
-          Dodaj
+          Add
         </Button>
       </DialogActions>
     </Dialog>

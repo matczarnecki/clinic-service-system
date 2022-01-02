@@ -44,4 +44,11 @@ function editUser(id, data) {
   });
 }
 
-export { getUsers, getLoggedUserData, addUser, deactivateUser, getUser, editUser }
+function getDoctors() {
+  return axios({
+    method: "GET",
+    url: 'v1/api/users/doctors',
+  });
+}
+
+export { getUsers, getLoggedUserData, addUser, deactivateUser, getUser, editUser, getDoctors }

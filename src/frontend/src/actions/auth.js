@@ -1,12 +1,13 @@
 import axios from 'axios';
 
 function login(data) {
+    delete axios.defaults.headers.common["Authorization"];
+    localStorage.removeItem('Token');
     return axios({
       method: "POST",
       url: "/v1/api/authentication",
       data: data,
     }).then(res => {
-      console.log(res)
       const token = res.data.jwt;
       localStorage.setItem('Token', token);
       setAuthorizationToken(token);

@@ -24,8 +24,8 @@ function getPatientAppointments(id) {
 
 function cancelAppointment(appointmentId){
   return axios({
-    method: "PATCH",
-    url: `api/appointment/registrant/doctor/appointment/${appointmentId}`,
+    method: "DELETE",
+    url: `/v1/api/appointments/${appointmentId}`,
   })
 }
 

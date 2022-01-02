@@ -13,11 +13,4 @@ function getAppointments(date, statusCode) {
   });
 }
 
-function getDoctors() {
-  return axios({
-    method: "GET",
-    url: '/api/doctor/registrant',
-  });
-}
-
-export { getAppointments, getDoctors };
+export { getAppointments };

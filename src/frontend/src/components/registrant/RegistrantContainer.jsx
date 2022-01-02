@@ -59,7 +59,7 @@ class RegistrantContainer extends Component {
         getAppointments(this.state.date)
           .then((res) => {
             this.setState({
-              appointments: res.data.appointments,
+              appointments: res.data,
               isLoading: false,
             });
           })
@@ -67,7 +67,7 @@ class RegistrantContainer extends Component {
             if (error.response) {
               this.props.showMessage(error.response.data);
             } else {
-              this.props.showMessage("Nieznany błąd");
+              this.props.showMessage("Unrecognized error");
             }
           });
       }
@@ -77,6 +77,7 @@ class RegistrantContainer extends Component {
   onCancel = () =>
     cancelAppointment(this.state.selectedAppointmentId)
       .then((res) => {
+        this.hideDialog();
         if (res.data) {
           this.props.showMessage(res.data);
         }
@@ -86,7 +87,7 @@ class RegistrantContainer extends Component {
         if (error.response) {
           this.props.showMessage(error.response.data);
         } else {
-          this.props.showMessage("Nieznany błąd");
+          this.props.showMessage("Unrecognized error");
         }
         this.hideDialog();
       });
@@ -99,32 +100,28 @@ class RegistrantContainer extends Component {
           handleDateChange={this.handleDateChange}
           columns={[
             {
-              title: "Opis",
-              field: "description",
-            },
-            {
-              title: "Diagnoza",
-              field: "diagnose",
-            },
-            {
               title: "Status",
               field: "status",
             },
             {
-              title: "Data zakończenia/odwołania",
-              field: "finishedCancelledDate",
+              title: "Appointment time",
+              field: "appointmentTime",
             },
             {
-              title: "Lekarz",
-              field: "doctorName",
+              title: "Doctor first name",
+              field: "doctor.firstName",
             },
             {
-              title: "Pacjent",
-              field: "patientName",
+              title: "Doctor last name",
+              field: "doctor.lastName",
             },
             {
-              title: "Rejestrator",
-              field: "registrantName",
+              title: "Patient first name",
+              field: "patient.firstName",
+            },
+            {
+              title: "Patient last name",
+              field: "patient.lastName",
             },
           ]}
           data={this.state.appointments}
@@ -134,9 +131,9 @@ class RegistrantContainer extends Component {
         />
         <YesNoDialog
           visible={this.state.dialogVisible}
-          title="Ostrzeżenie"
+          title="Warning"
           onHide={this.hideDialog}
-          content="Czy na pewno chcesz anulować tę wizytę?"
+          content="Are you sure you want to cancel this appointment?"
           onConfirm={this.onCancel}
         />
       </>

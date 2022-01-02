@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import LoginComponent from './LoginComponent';
-import App from './../../App';
 import { login } from './../../actions/auth';
 import { withRouter } from 'react-router-dom';
 
@@ -16,7 +15,7 @@ class LoginContainer extends Component {
     this.props.history.push("/");
   }
 
-  log = values => { 
+  log = values => {
     this.setState({
       isLoading: true,
     });

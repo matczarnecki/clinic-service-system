@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getDoctors } from './../../../actions/doctors';
+import { getDoctors } from './../../../actions/users';
 import { getPatients, addPatient } from './../../../actions/patients'
 import { addAppointment } from './../../../actions/registrant';
 import AddAppointmentComponent from './AddAppointmentComponent';
@@ -7,7 +7,6 @@ import AddPatientDialogComponent from './AddPatientDialogComponent';
 import { withRouter } from 'react-router-dom';
 import { withSnackbar } from './../../../ui/SnackbarContext';
 import { getAppointments } from "./../../../actions/registrant";
-import { isThisHour } from 'date-fns/esm';
 
 class AddAppointmentContainer extends Component {
   constructor(props) {
@@ -19,8 +18,6 @@ class AddAppointmentContainer extends Component {
       dialogVisible: false,
       data: [],
       tableLoading: false,
-      DoctorId: '',
-      RegistrationDate: new Date(),
     }
   }
 
@@ -40,7 +37,7 @@ class AddAppointmentContainer extends Component {
     getPatients()
       .then(res => {
         this.setState({
-          patients: res.data.patients,
+          patients: res.data,
           isLoading: false,
         })
       })
@@ -51,7 +48,7 @@ class AddAppointmentContainer extends Component {
         if (error.response) {
           this.props.showMessage(error.response.data);
         } else {
-          this.props.showMessage("Nieznany błąd");
+          this.props.showMessage("Unrecognized error");
         }
       });
   }
@@ -60,7 +57,7 @@ class AddAppointmentContainer extends Component {
     getDoctors()
       .then(res => {
         this.setState({
-          doctors: res.data.doctors,
+          doctors: res.data,
         }, () => {
           this.fetchPatients();
         });
@@ -72,7 +69,7 @@ class AddAppointmentContainer extends Component {
         if (error.response) {
           this.props.showMessage(error.response.data);
         } else {
-          this.props.showMessage("Nieznany błąd");
+          this.props.showMessage("Unrecognized error");
         }
       });
   }
@@ -86,7 +83,7 @@ class AddAppointmentContainer extends Component {
       getAppointments(date, doctorId)
         .then(res => {
           this.setState({
-            data: res.data.appointments,
+            data: res.data,
             tableLoading: false,
           })
         })
@@ -101,25 +98,18 @@ class AddAppointmentContainer extends Component {
 
   onAddPatient = values => addPatient(values);
 
-  handleDoctorChange = (newValue) => {
-    this.setState({
-      DoctorId: newValue,
-    });
-    this.fetchAppointments(this.state.RegistrationDate, newValue.id);
-  }
-
-  handleDateChange = (newDate) => {
-    if (newDate.getDay() !== this.state.RegistrationDate.getDay()
-      || newDate.getMonth() !== this.state.RegistrationDate.getMonth()
-      || newDate.getFullYear() !== this.state.RegistrationDate.getFullYear()) {
-
-        this.fetchAppointments(newDate, this.state.DoctorId.id);
+  handleDoctorChange = (registrationDate, newValue) => {
+    if (registrationDate && newValue?.id) {
+      this.fetchAppointments(registrationDate, newValue.id);
     }
-
-    this.setState({
-      RegistrationDate: newDate,
-    });
   }
+
+  handleDateChange = (newDate, doctorId) => {
+    if (doctorId) {
+        this.fetchAppointments(newDate, doctorId);
+    }
+  }
+
   render() {
     return (
       <>
@@ -135,20 +125,19 @@ class AddAppointmentContainer extends Component {
           fetchAppointments={this.fetchAppointments}
           handleDoctorChange={this.handleDoctorChange}
           handleDateChange={this.handleDateChange}
-          DoctorId={this.state.DoctorId}
-          RegistrationDate={this.state.RegistrationDate}
           columns={[
             {
-              title: "Pacjent",
-              field: "patientName",
+              title: "Patient first name",
+              field: "patient.firstName",
             },
             {
-              title: "Rejestrator",
-              field: "registrantName",
+              title: "Patient last name",
+              field: "patient.lastName",
             },
             {
-              title: "Termin",
-              field: "registrationDate",
+              title: "Appointment time",
+              field: "appointmentTime",
+              type: "datetime",
             },
           ]}
         />

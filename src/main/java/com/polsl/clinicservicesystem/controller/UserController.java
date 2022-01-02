@@ -65,4 +65,10 @@ public class UserController {
     userService.disableUser(id);
     return ResponseEntity.ok("User has been disabled!");
   }
+
+  @GetMapping("/doctors")
+  @PreAuthorize("hasAuthority('CAN_SEE_DOCTORS')")
+  public List<?> getDoctors() {
+    return userService.getDoctors();
+  }
 }

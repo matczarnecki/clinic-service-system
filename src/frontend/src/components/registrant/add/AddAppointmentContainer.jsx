@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { getDoctors } from './../../../actions/users';
 import { getPatients, addPatient } from './../../../actions/patients'
-import { addAppointment } from './../../../actions/registrant';
+import { addAppointment, getAppointments } from './../../../actions/appointment';
 import AddAppointmentComponent from './AddAppointmentComponent';
 import AddPatientDialogComponent from './AddPatientDialogComponent';
 import { withRouter } from 'react-router-dom';
 import { withSnackbar } from './../../../ui/SnackbarContext';
-import { getAppointments } from "./../../../actions/registrant";
 
 class AddAppointmentContainer extends Component {
   constructor(props) {

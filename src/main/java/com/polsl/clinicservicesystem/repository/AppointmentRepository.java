@@ -21,4 +21,6 @@ public interface AppointmentRepository extends CrudRepository<AppointmentEntity,
 
   List<AppointmentEntity> findByAppointmentTimeBetweenAndDoctor_Id(LocalDateTime from, LocalDateTime to,
                                                                     Integer doctorId);
+
+  List<AppointmentEntity> findAllByAppointmentTimeBefore(LocalDateTime appointmentTime);
 }

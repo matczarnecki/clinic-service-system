@@ -1,16 +1,13 @@
 import React from 'react';
 import { Card, Tabs, Tab } from '@material-ui/core';
 import AppointmentComponent from './tabs/AppointmentComponent';
-import TestComponent from './tabs/TestComponent';
 import LoadingOverlay from './../../../ui/LoadingOverlay';
 import HistoryAppointmentContainer from './tabs/HistoryAppointmentContainer';
-import HistoryLaboratoryTestContainer from './tabs/HistoryLaboratoryTestContainer';
-import HistoryPhysicalTestContainer from './tabs/HistoryPhysicalTestContainer';
 
 const MakeAppointmentComponent = (props) => {
   return (
     <Card className="card">
-      {props.appointment && props.appointment.status === 'ZAK' ? (<div>Ta wizyta została już zakończona</div>) : (
+      {props.appointment && props.appointment.status === 'DONE' ? (<div>This appointment has been finished</div>) : (
         <>
           <div className="tablist">
             <Tabs
@@ -21,12 +18,8 @@ const MakeAppointmentComponent = (props) => {
               variant="scrollable"
               scrollButtons="auto"
             >
-              <Tab label="Wizyta" />
-              <Tab label="Badanie laboratoryjne" />
-              <Tab label="Badanie fizykalne" />
-              <Tab label="Wizyty" />
-              <Tab label="Badania laboratoryjne" />
-              <Tab label="Badania fizykalne" />
+              <Tab label="Appointment" />
+              <Tab label="Previous appointments" />
             </Tabs>
           </div>
           {props.tab === 0 &&
@@ -37,45 +30,7 @@ const MakeAppointmentComponent = (props) => {
             />
           }
           {props.tab === 1 &&
-            <TestComponent
-              appointment={props.appointment}
-              textFieldLabel='Opis'
-              textFieldId='DoctorNote'
-              codes={props.laboratoryCodes}
-              onSubmit={props.addLaboratoryTest}
-              formikValues={{
-                DoctorNote: '',
-                ExaminationCode: '',
-              }}
-            />
-          }
-
-          {props.tab === 2 &&
-            <TestComponent
-              appointment={props.appointment}
-              textFieldLabel='Diagnoza'
-              textFieldId='Result'
-              codes={props.physicalCodes}
-              onSubmit={props.addPhysicalTest}
-              formikValues={{
-                Result: '',
-                ExaminationCode: '',
-              }}
-            />
-          }
-
-          {props.tab === 3 &&
             <HistoryAppointmentContainer
-              appointment={props.appointment}
-            />
-          }
-          {props.tab === 4 &&
-            <HistoryLaboratoryTestContainer
-              appointment={props.appointment}
-            />
-          }
-          {props.tab === 5 &&
-            <HistoryPhysicalTestContainer
               appointment={props.appointment}
             />
           }

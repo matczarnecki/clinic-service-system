@@ -76,7 +76,8 @@ public class AppointmentController {
 
   @PatchMapping("/{id}")
   @PreAuthorize("hasAuthority('CAN_MAKE_APPOINTMENTS')")
-  public ResponseEntity<?> makeAppointment(@PathVariable Integer id, @RequestBody @Valid MakeAppointmentRequest request) {
+  public ResponseEntity<?> makeAppointment(@PathVariable Integer id,
+                                           @RequestBody @Valid MakeAppointmentRequest request) {
     appointmentService.makeAppointment(id, request);
     return ResponseEntity.ok("The appointment has been finished!");
   }

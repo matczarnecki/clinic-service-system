@@ -103,11 +103,13 @@ class DoctorsContainer extends Component {
             },
             {
               title: "Diagnosis",
-              field: "diagnosis"
+              field: "diagnosis",
+              emptyValue: '-'
             },
             {
               title: "Description",
-              field: "description"
+              field: "description",
+              emptyValue: '-'
             },
           ]}
           actions={[

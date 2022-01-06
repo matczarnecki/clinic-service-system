@@ -44,7 +44,7 @@ public class AppointmentController {
                                                  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                                                      LocalDate date, Authentication auth) {
     CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
-    return ResponseEntity.ok(appointmentService.getAppointmentsForDay(date, user.getId()));
+    return ResponseEntity.ok(appointmentService.getDoctorAppointmentsForDay(date, user.getId()));
   }
 
 

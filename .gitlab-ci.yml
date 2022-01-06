@@ -9,7 +9,7 @@ build-jar:
     - chmod +x ./mvnw
     - if [ -z "$CI_COMMIT_TAG" ]; then VERSION="$TIMESTAMP-${CI_COMMIT_SHA:0:8}"; else VERSION=$CI_COMMIT_TAG; fi
     - cd ./src/frontend 
-    - export APP_VERSION=$VERSION
+    - export REACT_APP_VERSION=$VERSION
     - cd ../../
   script:
     - ./mvnw clean install -DskipTests

@@ -18,6 +18,7 @@ build-jar:
       - target/*.jar
   only:
     - main
+    - tags
 build-image:
   image: docker:latest
   services:
@@ -32,6 +33,7 @@ build-image:
     - docker push fil1ip/clinic-system
   only:
     - main
+    - tags
 deploy:
   image: docker:latest
   stage: deploy
@@ -47,3 +49,4 @@ deploy:
     - ssh $SSH_USER@$VM_IPADDRESS "cd ../srv/clinic-system/ && docker-compose stop && docker-compose pull && docker-compose up -d"
   only:
     - main
+    - tags

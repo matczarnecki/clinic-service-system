@@ -9,7 +9,7 @@ const HistoryComponent = (props) => {
         <MaterialTable
           columns={props.columns}
           data={props.data}
-          title="Wizyty"
+          title="Previous appointments"
           options={{
             emptyRowsWhenPaging: false
           }}

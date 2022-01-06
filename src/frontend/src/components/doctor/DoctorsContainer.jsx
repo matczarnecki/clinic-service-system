@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import DoctorsComponent from "./DoctorsComponent";
-import { getAppointments } from "../../actions/doctors";
-import { cancelAppointment } from "../../actions/appointment"
+import { cancelAppointment, getDoctorAppointments } from "../../actions/appointment"
 import YesNoDialog from "./../../ui/YesNoDialog";
 import { withSnackbar } from "../../ui/SnackbarContext";
-import { getAppointmentStatuses } from "../../actions/appointmentStatus";
 
 class DoctorsContainer extends Component {
   constructor(props) {
@@ -16,8 +14,6 @@ class DoctorsContainer extends Component {
       dialogVisible: false,
       title: "",
       selectedAppointmentId: "",
-      statuses: [],
-      status: 'REJ',
     };
   }
 
@@ -49,41 +45,16 @@ class DoctorsContainer extends Component {
     );
   }
 
-  handleStatusChange = event => {
-    this.setState({
-      status: event.target.value,
-    }, () => {
-      this.fetchAppointments();
-    });
-  }
-
   fetchData = () => {
-    this.fetchStatuses();
     this.fetchAppointments();
-
   }
 
-  fetchStatuses = () => {
-    getAppointmentStatuses()
-      .then(res => {
-        this.setState({
-          statuses: res.data.appointmentStatuses,
-        });
-      })
-      .catch(error => {
-        if (error.response) {
-          this.props.showMessage(error.response.data);
-        } else {
-          this.props.showMessage("Nieznany błąd");
-        }
-      });
-  }
 
   fetchAppointments = () => {
-    getAppointments(this.state.date, this.state.status)
+    getDoctorAppointments(this.state.date)
       .then(result => {
         this.setState({
-          appointments: result.data.appointments,
+          appointments: result.data,
           isLoading: false
         });
       })
@@ -92,18 +63,20 @@ class DoctorsContainer extends Component {
   onCancel = () =>
     cancelAppointment(this.state.selectedAppointmentId)
       .then((res) => {
+        this.hideDialog();
         if (res.data) {
           this.props.showMessage(res.data);
         }
       })
       .then(this.fetchData)
       .catch((error) => {
-        if (error.response) {
-          this.props.showMessage(error.response.data);
-        } else {
-          this.props.showMessage("Nieznany błąd");
-        }
         this.hideDialog();
+        if (error.response.data.message) {
+          this.props.showMessage(error.response.data.message);
+        } else {
+          this.props.showMessage("Unrecognized error");
+        }
+  
       });
 
   render() {
@@ -112,42 +85,43 @@ class DoctorsContainer extends Component {
         <DoctorsComponent
           columns={[
             {
-              title: "Imie i nazwisko pacjenta",
-              field: "patientName"
-            },
-            {
-              title: "Diagnoza",
-              field: "diagnose"
-            },
-            {
-              title: "Opis",
-              field: "description"
+              title: "Appointment time",
+              field: "appointmentTime",
+              type: "datetime"
             },
             {
               title: "Status",
               field: "status"
             },
             {
-              title: "Data anulowania",
-              field: "finishedCancelledDate"
+              title: "Patient first name",
+              field: "patient.firstName"
             },
             {
-              title: "Imie rejestratorki",
-              field: "registrantName"
-            }
+              title: "Patient last name",
+              field: "patient.lastName"
+            },
+            {
+              title: "Diagnosis",
+              field: "diagnosis"
+            },
+            {
+              title: "Description",
+              field: "description"
+            },
           ]}
           actions={[
             rowData => ({
               icon: 'edit',
-              tooltip: 'Przeprowadź wizytę',
-              onClick: (event, rowData) => { this.props.history.push(`/doctor/${rowData.id}`) },
-              disabled: rowData.status === 'ZAK' || rowData.status === 'ANU',
+              tooltip: 'Start appointment',
+              onClick: (_event, rowData) => { this.props.history.push(`/doctor/${rowData.id}`) },
+              disabled: rowData.status === 'DONE' || rowData.status === 'CANCELLED',
             }),
             rowData => ({
               icon: 'delete',
-              tooltip: 'Anuluj wizytę',
-              disabled: rowData.status === 'ZAK' || rowData.status === 'ANU',
-              onClick: (event, rowData) => this.showDialog(rowData)
+              tooltip: 'Cancel appointment',
+              disabled: rowData.status === 'DONE' || rowData.status === 'CANCELLED',
+              onClick: (_event, rowData) => this.showDialog(rowData)
             }),
           ]}
           title={this.state.title}
@@ -155,15 +129,12 @@ class DoctorsContainer extends Component {
           isLoading={this.state.isLoading}
           handleDateChange={this.handleDateChange}
           date={this.state.date}
-          statuses={this.state.statuses}
-          status={this.state.status}
-          handleStatusChange={this.handleStatusChange}
         />
         <YesNoDialog
           visible={this.state.dialogVisible}
-          title="Ostrzeżenie"
+          title="Warning"
           onHide={this.hideDialog}
-          content="Czy na pewno chcesz anulować tę wizytę?"
+          content="Are you sure you want to cancel this appointment?"
           onConfirm={this.onCancel}
         />
       </>

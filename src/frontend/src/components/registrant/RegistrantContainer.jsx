@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import RegistrantComponent from "./RegistrantComponent";
-import { getAppointments } from "./../../actions/registrant";
-import { cancelAppointment } from "./../../actions/appointment";
+import { getAppointments, cancelAppointment } from "./../../actions/appointment";
 import YesNoDialog from "./../../ui/YesNoDialog";
 import { withSnackbar } from "../../ui/SnackbarContext";
 

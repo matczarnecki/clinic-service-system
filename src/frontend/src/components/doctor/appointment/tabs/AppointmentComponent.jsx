@@ -11,8 +11,8 @@ const formikEnhancer = withFormik({
   enableReinitialize: true,
 
   mapPropsToValues: props => ({
-    Description: '',
-    Diagnose: '',
+    description: '',
+    diagnosis: '',
   }),
 
   handleSubmit: (values, { props }) => {
@@ -22,16 +22,21 @@ const formikEnhancer = withFormik({
         props.goBack();
       })
       .catch(error => {
-        if (error.response) {
-          props.showMessage(error.response.data);
+        if (error.response.data.message) {
+          props.showMessage(error.response.data.message);
         } else {
-          props.showMessage("Nieznany błąd");
+          props.showMessage("Unrecognized error");
         }
       });
   },
 
   validationSchema: Yup.object().shape({
-    Description: Yup.string().required("Opis nie może być pusty")
+    description: Yup.string()
+      .max(255, "Description can't be longer than 255")
+      .required("Description can't be empty!"),
+    diagnosis: Yup.string()
+      .max(255, "Diagnosis can't be longer than 255")
+      .required("Diagnosis can't be empty!")
   }),
 });
 
@@ -41,19 +46,20 @@ const AppointmentComponent = (props) => {
     touched,
     errors,
   } = props;
-  
+
   return (
     <>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={4}>
           <InputLabel>
-            Pacjent
+            Patient
           </InputLabel>
           <TextField
-            id='Patient'
+            id='patient'
             fullWidth
             variant='outlined'
-            value={props.appointment ? props.appointment.patientName : ''}
+            value={props.appointment ?
+              `${props.appointment?.patient?.firstName}  ${props.appointment?.patient?.lastName}` : ''}
             disabled
           />
         </Grid>
@@ -64,32 +70,32 @@ const AppointmentComponent = (props) => {
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <InputLabel>
-            Diagnoza
+            Diagnosis
           </InputLabel>
           <TextField
-            id='Diagnose'
+            id='diagnosis'
             onChange={props.handleChange}
             fullWidth
             variant='outlined'
-            value={props.values.Diagnose}
+            value={props.values.diagnosis}
             multiline
             rows="4"
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <InputLabel>
-            Opis
+            Description
           </InputLabel>
           <TextField
-            id='Description'
+            id='description'
             onChange={props.handleChange}
             fullWidth
             variant='outlined'
-            value={props.values.Description}
+            value={props.values.description}
             multiline
             rows="4"
-            helperText={touched.Description ? errors.Description : ""}
-            error={touched.Description && Boolean(errors.Description)}
+            helperText={touched.description ? errors.description : ""}
+            error={touched.description && Boolean(errors.description)}
           />
         </Grid>
       </Grid>
@@ -102,7 +108,7 @@ const AppointmentComponent = (props) => {
             endIcon={<BackspaceIcon />}
             onClick={props.goBack}
           >
-            Wróć
+            Cancel
           </Button>
           <Button
             color="primary"
@@ -110,7 +116,7 @@ const AppointmentComponent = (props) => {
             endIcon={<SaveIcon />}
             onClick={props.handleSubmit}
           >
-            Zakończ wizytę
+            End appointment
           </Button>
         </div>
       </div>

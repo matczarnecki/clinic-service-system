@@ -35,6 +35,8 @@ public class AppointmentEntity {
 
   private String diagnosis;
 
+  private String description;
+
   public Integer getId() {
     return id;
   }
@@ -81,5 +83,13 @@ public class AppointmentEntity {
 
   public void setDiagnosis(String diagnosis) {
     this.diagnosis = diagnosis;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 }

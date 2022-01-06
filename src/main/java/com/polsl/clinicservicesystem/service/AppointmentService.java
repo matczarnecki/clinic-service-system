@@ -1,5 +1,6 @@
 package com.polsl.clinicservicesystem.service;
 
+import com.polsl.clinicservicesystem.dto.appointment.AppointmentFullResponse;
 import com.polsl.clinicservicesystem.dto.appointment.AppointmentRequest;
 import com.polsl.clinicservicesystem.dto.appointment.AppointmentResponse;
 import com.polsl.clinicservicesystem.exception.BadRequestException;
@@ -45,6 +46,15 @@ public class AppointmentService {
     return appointments;
   }
 
+  public List<AppointmentFullResponse> getDoctorAppointmentsForDay(LocalDate date, Integer doctorId) {
+    List<AppointmentFullResponse> appointments;
+    appointments = appointmentRepository.findByAppointmentDateAndDoctor_Id(date, doctorId)
+        .stream()
+        .map(AppointmentFullResponse::fromEntity)
+        .collect(Collectors.toList());
+    return appointments;
+  }
+
 
   public void cancelAppointment(Integer id) {
     AppointmentEntity appointment = appointmentRepository.findById(id)
@@ -66,5 +76,22 @@ public class AppointmentService {
     appointment.setPatient(patient);
     appointment.setStatus(AppointmentStatus.SCHEDULED);
     appointmentRepository.save(appointment);
+  }
+
+  public AppointmentResponse getAppointment(Integer id) {
+    AppointmentEntity appointment = appointmentRepository.findById(id)
+        .orElseThrow(() -> new BadRequestException("Appointment with id: " + id + " was not found"));
+    return AppointmentResponse.fromEntity(appointment);
+  }
+
+  public List<AppointmentFullResponse> getPatientAppointments(Integer id) {
+    AppointmentEntity entity = appointmentRepository.findById(id)
+        .orElseThrow(() -> new BadRequestException("Appointment with id: " + id + " was not found"));
+    List<AppointmentFullResponse> appointments;
+    appointments = appointmentRepository.findAllByAppointmentTimeBefore(entity.getAppointmentTime())
+        .stream()
+        .map(AppointmentFullResponse::fromEntity)
+        .collect(Collectors.toList());
+    return appointments;
   }
 }

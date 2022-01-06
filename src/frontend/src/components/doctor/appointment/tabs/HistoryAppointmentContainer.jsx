@@ -13,21 +13,13 @@ class HistoryAppointmentContainer extends Component {
   }
 
   componentDidMount() {
-    getPatientAppointments(this.state.appointment.patientId)
+    getPatientAppointments(this.state.appointment.id)
       .then(res => {
         this.setState({
-          appointments: res.data.appointments,
+          appointments: res.data,
           isLoading: false,
         });
       })
-      .catch(error => {
-        if (error.response.data) {
-          this.props.showMessage(error.response.data);
-        }
-        else {
-          this.props.showMessage("Nieznany błąd");
-        }
-      });
   }
 
   render() {
@@ -37,28 +29,31 @@ class HistoryAppointmentContainer extends Component {
         isLoading={this.state.isLoading}
         columns={[
           {
-            title: 'Opis',
-            field: 'description'
+            title: 'Description',
+            field: 'description',
+            emptyValue: '-'
           },
           {
-            title: 'Diagnoza',
-            field: 'diagnose'
+            title: 'Diagnosis',
+            field: 'diagnose',
+            emptyValue: '-'
           },
           {
             title: 'Status',
             field: 'status'
           },
           {
-            title: 'Data rejestracji',
-            field: 'registrationDate'
+            title: 'Appointment time',
+            field: 'appointmentTime',
+            type: "datetime"
           },
           {
-            title: 'Data ukończenia',
-            field: 'finishedCancelledDate'
+            title: 'Doctor first Name',
+            field: 'doctor.firstName'
           },
           {
-            title: 'Doktor',
-            field: 'doctorName'
+            title: 'Doctor last Name',
+            field: 'doctor.lastName'
           },
         ]}
       />

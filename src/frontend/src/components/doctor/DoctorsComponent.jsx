@@ -1,6 +1,6 @@
 import React from 'react';
 import MaterialTable from 'material-table';
-import { Card, Typography, Grid, Select, MenuItem, InputLabel, Divider } from '@material-ui/core';
+import { Card, Typography, Grid, InputLabel, Divider } from '@material-ui/core';
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -13,12 +13,12 @@ const DoctorsComponent = (props) => {
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <Card className="card">
         <Typography variant="h5" className="underline-title">
-          Wizyty
+          Appointments
         </Typography>
         <Grid container spacing={3}>
           <Grid item xs={12} md={3}>
             <InputLabel>
-              Data
+              Date
           </InputLabel>
             <KeyboardDatePicker
               variant="outlined"
@@ -29,23 +29,6 @@ const DoctorsComponent = (props) => {
               fullWidth
               style={{ marginBottom: "3%" }}
             />
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <InputLabel>
-              Status
-          </InputLabel>
-            <Select
-              id="status"
-              value={props.status}
-              onChange={props.handleStatusChange}
-              fullWidth
-            >
-              {props.statuses.map((element) => (
-                <MenuItem value={element.code}>
-                  {element.code} - {element.name}
-                </MenuItem>
-              ))}
-            </Select>
           </Grid>
         </Grid>
         <Divider style={{ marginBottom: '2%', marginTop: '2%' }} />

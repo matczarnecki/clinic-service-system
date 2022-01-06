@@ -1,6 +1,5 @@
 import React from 'react';
 import MaterialTable from 'material-table';
-import { Divider } from '@material-ui/core';
 
 const HistoryComponent = (props) => {
   return (

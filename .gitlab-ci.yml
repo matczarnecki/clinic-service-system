@@ -40,6 +40,6 @@ deploy:
     - ssh-keyscan $VM_IPADDRESS >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
-    - ssh $SSH_USER@$VM_IPADDRESS "cd ../srv/clinic-system/ && docker-compose stop && docker-compose pull && docker-compose up -d"
+    - ssh $SSH_USER@$VM_IPADDRESS "cd ../srv/clinic-system/ && docker-compose pull && docker-compose restart clinic-system"
   only:
     - main

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import MakeAppointmentComponent from './MakeAppointmentComponent';
 import { getAppointment, makeAppointment } from '../../../actions/appointment';
 import { withSnackbar } from '../../../ui/SnackbarContext';
-import { format } from 'date-fns'
 
 class MakeAppointmentContainer extends Component {
   constructor(props) {

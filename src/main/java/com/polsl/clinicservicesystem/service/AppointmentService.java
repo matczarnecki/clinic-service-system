@@ -3,6 +3,7 @@ package com.polsl.clinicservicesystem.service;
 import com.polsl.clinicservicesystem.dto.appointment.AppointmentFullResponse;
 import com.polsl.clinicservicesystem.dto.appointment.AppointmentRequest;
 import com.polsl.clinicservicesystem.dto.appointment.AppointmentResponse;
+import com.polsl.clinicservicesystem.dto.appointment.MakeAppointmentRequest;
 import com.polsl.clinicservicesystem.exception.BadRequestException;
 import com.polsl.clinicservicesystem.model.AppointmentEntity;
 import com.polsl.clinicservicesystem.model.AppointmentStatus;
@@ -93,5 +94,15 @@ public class AppointmentService {
         .map(AppointmentFullResponse::fromEntity)
         .collect(Collectors.toList());
     return appointments;
+  }
+
+  public void makeAppointment(Integer id, MakeAppointmentRequest request) {
+    AppointmentEntity entity = appointmentRepository.findById(id)
+        .orElseThrow(() -> new BadRequestException("Appointment with id: " + id + " was not found"));
+
+    entity.setDescription(request.getDescription());
+    entity.setDiagnosis(request.getDiagnosis());
+    entity.setStatus(AppointmentStatus.DONE);
+    appointmentRepository.save(entity);
   }
 }

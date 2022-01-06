@@ -1,6 +1,7 @@
 package com.polsl.clinicservicesystem.controller;
 
 import com.polsl.clinicservicesystem.dto.appointment.AppointmentRequest;
+import com.polsl.clinicservicesystem.dto.appointment.MakeAppointmentRequest;
 import com.polsl.clinicservicesystem.security.CustomUserDetails;
 import com.polsl.clinicservicesystem.service.AppointmentService;
 import java.time.LocalDate;
@@ -11,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -70,5 +72,12 @@ public class AppointmentController {
   @PreAuthorize("hasAuthority('CAN_SEE_PATIENT_APPOINTMENTS')")
   public ResponseEntity<?> getPatientAppointments(@PathVariable Integer appointmentId) {
     return ResponseEntity.ok(appointmentService.getPatientAppointments(appointmentId));
+  }
+
+  @PatchMapping("/{id}")
+  @PreAuthorize("hasAuthority('CAN_MAKE_APPOINTMENTS')")
+  public ResponseEntity<?> makeAppointment(@PathVariable Integer id, @RequestBody @Valid MakeAppointmentRequest request) {
+    appointmentService.makeAppointment(id, request);
+    return ResponseEntity.ok("The appointment has been finished!");
   }
 }

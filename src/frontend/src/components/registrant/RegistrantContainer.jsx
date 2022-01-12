@@ -105,6 +105,7 @@ class RegistrantContainer extends Component {
             {
               title: "Appointment time",
               field: "appointmentTime",
+              type: "datetime"
             },
             {
               title: "Doctor first name",

@@ -14,6 +14,7 @@ import BackspaceIcon from '@material-ui/icons/Backspace';
 import { withSnackbar } from './../../../ui/SnackbarContext';
 import MaterialTable from 'material-table';
 import * as Yup from "yup";
+import formatISO from 'date-fns/formatISO';
 
 
 const formikEnhancer = withFormik({
@@ -29,7 +30,7 @@ const formikEnhancer = withFormik({
     const data = {
       doctorId: values.doctor.id,
       patientId: values.patient.id,
-      appointmentTime: values.registrationDate.toISOString(),
+      appointmentTime: formatISO(values.registrationDate).substring(0,16)
     }
     props.onSubmit(data)
       .then(res => {

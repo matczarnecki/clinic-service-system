@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import UsersComponent from './UsersComponent';
-import { getUsers, deactivateUser } from './../../actions/users';
+import { getUsers, deactivateUser, unlockUser } from './../../actions/users';
 import YesNoDialog from './../../ui/YesNoDialog';
 import { withSnackbar } from '../../ui/SnackbarContext';
 
@@ -68,6 +68,23 @@ class UsersContainer extends Component {
       }
       this.hideDialog();
     });
+  
+  onUnlock = (id) => {
+    unlockUser(id)
+    .then((res) => {
+      if (res.data) {
+        this.props.showMessage(res.data);
+      }
+      this.fetchData();
+    })
+    .catch((error => {
+      if (error.response) {
+        this.props.showMessage(error.response.data);
+      } else {
+        this.props.showMessage("Uncecognized error");
+      }
+    }));
+  }
 
   render() {
     return (
@@ -95,11 +112,17 @@ class UsersContainer extends Component {
               field: 'active',
               type: 'boolean',
             },
+            {
+              title: 'Account locked',
+              field: 'blocked',
+              type: 'boolean'
+            }
           ]}
           data={this.state.users}
           onAdd={this.onAdd}
           onDeactivate={(event, rowData) => this.showDialog(rowData)}
           onEdit={(event, data) => this.props.history.push(`/admin/${data.id}`) }
+          onUnlock={(event, data) => this.onUnlock(data.id)}
         />
         <YesNoDialog
           visible={this.state.dialogVisible}

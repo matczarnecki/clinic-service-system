@@ -51,4 +51,20 @@ function getDoctors() {
   });
 }
 
-export { getUsers, getLoggedUserData, addUser, deactivateUser, getUser, editUser, getDoctors }
+function unlockUser(id) {
+  return axios({
+    method: "PATCH",
+    url: `v1/api/users/${id}/unlock`,
+  })
+}
+
+export {
+  getUsers,
+  getLoggedUserData,
+  addUser,
+  deactivateUser,
+  getUser,
+  editUser,
+  getDoctors,
+  unlockUser,
+}

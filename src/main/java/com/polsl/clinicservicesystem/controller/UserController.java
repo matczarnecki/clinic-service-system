@@ -66,6 +66,13 @@ public class UserController {
     return ResponseEntity.ok("User has been disabled!");
   }
 
+  @PatchMapping("{id}/unlock")
+  @PreAuthorize("hasAuthority('CAN_EDIT_USERS')")
+  public ResponseEntity<?> unlockAccount(@PathVariable Integer id) {
+    userService.unlockAccount(id);
+    return ResponseEntity.ok("Account has been unlocked!");
+  }
+
   @GetMapping("/doctors")
   @PreAuthorize("hasAuthority('CAN_SEE_DOCTORS')")
   public List<?> getDoctors() {

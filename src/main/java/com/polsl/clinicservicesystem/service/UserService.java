@@ -21,6 +21,8 @@ public class UserService {
   private final RoleRepository roleRepository;
   private final PasswordEncoder passwordEncoder;
 
+  private final int MAX_NUMBER_OF_FAILED_LOGINS = 3;
+
   public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
     this.roleRepository = roleRepository;
@@ -93,5 +95,37 @@ public class UserService {
         .stream()
         .map(UserResponse::fromEntity)
         .collect(Collectors.toList());
+  }
+
+  public void handleCorrectAuthentication(String username) {
+    userRepository.findByUsername(username).ifPresent((user) ->  {
+      if (!user.isBlocked()) {
+        user.setNumberOfFailedLogins(0);
+        userRepository.save(user);
+        return;
+      }
+      throw new BadRequestException("Account is locked for user with username: " + user.getUsername());
+    });
+  }
+
+  public void handleFailedAuthentication(String username) {
+    userRepository.findByUsername(username).ifPresent((user) -> {
+        if (user.isBlocked()) {
+          throw new BadRequestException("Account is locked for user with username: " + user.getUsername());
+        }
+        user.setNumberOfFailedLogins(user.getNumberOfFailedLogins() + 1);
+        if (user.getNumberOfFailedLogins() > MAX_NUMBER_OF_FAILED_LOGINS) {
+            user.setBlocked(true);
+        }
+        userRepository.save(user);
+    });
+  }
+
+  public void unlockAccount(Integer id) {
+      userRepository.findById(id).ifPresent((user) -> {
+        user.setBlocked(false);
+        user.setNumberOfFailedLogins(0);
+        userRepository.save(user);
+      });
   }
 }

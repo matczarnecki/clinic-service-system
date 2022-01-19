@@ -23,6 +23,8 @@ public class UserEntity {
   private String lastName;
   private String emailAddress;
   private boolean isActive;
+  private boolean isBlocked;
+  private Integer numberOfFailedLogins;
 
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "role", referencedColumnName = "code")
@@ -90,5 +92,21 @@ public class UserEntity {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
+  }
+
+  public boolean isBlocked() {
+    return isBlocked;
+  }
+
+  public void setBlocked(final boolean blocked) {
+    isBlocked = blocked;
+  }
+
+  public Integer getNumberOfFailedLogins() {
+    return numberOfFailedLogins;
+  }
+
+  public void setNumberOfFailedLogins(final Integer numberOfFailedLogins) {
+    this.numberOfFailedLogins = numberOfFailedLogins;
   }
 }

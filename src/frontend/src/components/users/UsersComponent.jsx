@@ -35,6 +35,12 @@ const UsersComponent = (props) => {
               onClick: props.onDeactivate,
               disabled: !rowData.active,
             }),
+            rowData => ({
+              icon: 'lock',
+              tooltip: 'Unlock user',
+              onClick: props.onUnlock,
+              disabled: !rowData.active || !rowData.blocked,
+            }),
           ]}
         />
       </div>

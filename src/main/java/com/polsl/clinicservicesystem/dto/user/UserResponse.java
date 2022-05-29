@@ -18,6 +18,8 @@ public class UserResponse {
 
   private String lastName;
 
+  private boolean isBlocked;
+
   public static UserResponse fromEntity(UserEntity entity) {
     UserResponse response = new UserResponse();
     response.setId(entity.getId());
@@ -27,6 +29,7 @@ public class UserResponse {
     response.setRole(entity.getRole().getCode());
     response.setFirstName(entity.getFirstName());
     response.setLastName(entity.getLastName());
+    response.setBlocked(entity.isBlocked());
     return response;
   }
 
@@ -84,5 +87,13 @@ public class UserResponse {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
+  }
+
+  public boolean isBlocked() {
+    return isBlocked;
+  }
+
+  public void setBlocked(final boolean blocked) {
+    isBlocked = blocked;
   }
 }
